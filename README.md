@@ -2,11 +2,14 @@
 A script to download StarCraft 2 replays from ggtracker.
 
 ## Setup instructions
-  - Install Ruby
+  - [Install Ruby](https://www.ruby-lang.org/en/documentation/installation/)
   - Have bundler installed (usually `gem install bundler`)
   - `gem install curb`
 
 ## Running the script
+
+Download the zip for this repository, or clone it.
+Then, in the terminal `cd ggtracker_replay_downloader`
 
 modify the script in two places to meet your needs:
 on the line that starts:

@@ -16,7 +16,10 @@ on the line that starts:
 ```ruby
 def get_all_replay_ids_for_identity
 ```
-change the `identity` and `limit_to` to your ggtracker identity and the number of replays you have on your account.
+Change the `identity` to your ggtracker identity for your account.  
+For example, for your profile URL:  
+`ggtracker.com/players/4914/LindyHop`  
+4914 is the identity
 
 then, in the terminal:
 ```

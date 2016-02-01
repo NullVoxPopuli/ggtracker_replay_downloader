@@ -21,17 +21,32 @@ end
 
 def get_all_replay_s3_links_for_identity(identity = 4914, limit_to = 700)
   puts 'downloading replay data from ggtracker...'
-  url = "http://api.ggtracker.com/api/v1/matches?category=Ladder&limit=#{limit_to}&game_type=1v1&identity_id=#{identity}&replay=true&filter=-graphs,match(replays,-map,-map_url),entity(-summary,-minutes,-armies)"
+  offset = 0
+  found_all_replays = false
+  all_replays = []
 
-  puts 'making a request to ' + url
-  c = Curl::Easy.perform(url)
-  json = JSON.parse(c.body_str)
-  replays = json['collection']
-  s3_liks = replays.map do |replay_info|
-    replay_info['replays'].map{|r| r['url'] }
+  until(found_all_replays) do
+    url = "http://api.ggtracker.com/api/v1/matches?category=Ladder&limit=50&offset=#{offset}&game_type=1v1&identity_id=#{identity}&replay=true&filter=-graphs,match(replays,-map,-map_url),entity(-summary,-minutes,-armies)"
+
+    puts 'making a request to ' + url
+    c = Curl::Easy.perform(url)
+    json = JSON.parse(c.body_str)
+    replays = json['collection']
+    urls_for_collection = []
+
+    if replays.count > 0
+      urls_for_collection = replays.map do |replay_info|
+        replay_info['replays'].map{|r| r['url'] }
+      end
+
+      all_replays << urls_for_collection
+      offset += 50
+    else
+      found_all_replays = true
+    end
   end
 
-  s3_links.flatten
+  all_replays.flatten
 end
 
 
